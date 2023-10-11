@@ -20,7 +20,7 @@ with st.sidebar:
 
 if selected == 'Crops Recommendation':
     st.title('Crop Prediction By Using Machine Learning')
-    st.write("**Note: N, P & K are in grams per Hectors, Temperature is in Degree Celsius, Humidity in Percentage (%) & Rainfall in Millimeter(mm).**")
+    st.write("**Note: N, P & K are in grams per Hectare, Temperature is in Degree Celsius, Humidity in Percentage (%) & Rainfall in Millimeter(mm).**")
     
     # Create input fields for user to enter features
     col1, col2, col3 = st.columns(3)
