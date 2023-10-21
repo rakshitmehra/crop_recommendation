@@ -10,6 +10,15 @@ try:
 except Exception as e:
     st.error(f"Error loading the model: {e}")
 
+# Configure Twilio
+twilio_account_sid = 'AC551a8cdc0a4abb5a2ab2c68c9be0baad'
+twilio_auth_token = '535449503c8b7bf7a8db238338145bed'
+twilio_phone_number = '+15855951991'
+recipient_phone_number = '+919988635799'
+
+# Create a Twilio client
+client = Client(twilio_account_sid, twilio_auth_token)
+
 # Create the Streamlit app
 with st.sidebar:
     # selected = st.selectbox('Crop Prediction System', ['Crops Prediction'])
@@ -63,12 +72,23 @@ if selected == 'Crops Recommendation':
 
             if crop != 'Soil is not fit for growing crops':
                 if float(humidity) <= 40:
+                    message = client.messages.create(
+                        body="⚠️⚠️ LOW WATER LEVEL IN YOUR SOIL ⚠️⚠️",
+                        from_=twilio_phone_number,
+                        to=recipient_phone_number
+                    )
                     st.write(
                         '<div style="background-color: Grey; padding: 15px; margin-bottom: 20px; border-radius: 5px; font-size: 20px; color: white;">'
                         '<strong>⚠️⚠️LOW WATER LEVEL IN YOUR SOIL⚠️⚠️</strong>'
                         '</div>',
                         unsafe_allow_html=True
                     )
+                crop_recommendation_message = f"The {crop} crop is suitable to be grown on this soil."
+                message = client.messages.create(
+                    body=crop_recommendation_message,
+                    from_=twilio_phone_number,
+                    to=recipient_phone_number
+                )
                 st.write(
                     f'<div style="background-color: Grey; padding: 15px; margin-bottom: 20px; border-radius: 5px; font-size: 22px; color: white;">'
                     f'<strong>Soil is fit to grow {crop}</strong>'
